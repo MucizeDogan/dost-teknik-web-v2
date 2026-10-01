@@ -45,3 +45,16 @@ Gerçek hizmet yarıçapını profil alan ayarlarında işletme durumuna uygun b
 - Marka×bölge sayfası eklemek için gerçek kaynak HTML anchor'ını kaydedin ve yalnızca o href eşleşmesini `brandRegionPairs` kaynağına dahil edin; yalnızca URL örüntüsünden kombinasyon üretmeyin.
 - Yeni müşteri yorumu ancak gerçek izinli yorum olarak doğrulandıktan sonra yayımlansın; varsayılan olarak değerlendirme puanı veya yorum schema'sı yoktur.
 - Build'i tekrar çalıştırarak `dist` klasörünü yeniden üretin.
+
+## 7. Son kalite kontrolleri
+
+```powershell
+npm run build
+npm run audit
+npm run audit:content
+npm run preview
+```
+
+`npm run audit` tüm üretilen sayfalardaki metadata, canonical, JSON-LD, yerel bağlantı/asset, sitemap, robots ve 5 hizmet / 10 bölge / 10 marka / 30 marka×bölge / 10 rehber örnek URL'yi denetler. Önizleme açıkken ikinci terminalde `npm run audit:http` ile aynı örneklem HTTP'den doğrulanır. `npm run audit:content` aile bazlı normalize içerik benzerliğini, kelime sayısını, tekrarlanan başlıkları ve orphan/internal-link grafiğini verir. Bulgular [CONTENT-QUALITY-AUDIT.md](CONTENT-QUALITY-AUDIT.md) ve [FINAL-AUDIT.md](FINAL-AUDIT.md) dosyalarındadır.
+
+Yayın adımlarını [FINAL-PRELAUNCH-CHECKLIST.md](FINAL-PRELAUNCH-CHECKLIST.md) üzerinden tamamlayın. Yerel build başarılı olsa bile gerçek alan adı ve Google Business Profile bilgileri teyit edilmeden üretime çıkmayın.

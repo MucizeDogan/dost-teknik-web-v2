@@ -3,5 +3,5 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "scripts": { "build": "node scripts/build.mjs", "audit": "node scripts/audit-build.mjs", "preview": "npm run build && node scripts/preview.mjs", "audit:http": "node scripts/audit-http.mjs" }
+  "scripts": { "build": "node scripts/build.mjs", "audit": "node scripts/audit-build.mjs", "audit:content": "node scripts/audit-content.mjs", "preview": "npm run build && node scripts/preview.mjs", "audit:http": "node scripts/audit-http.mjs" }
 }

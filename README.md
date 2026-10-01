@@ -10,9 +10,13 @@ Turgutreis merkezli Dost Teknik için Türkçe, statik ve GitHub Pages uyumlu kl
 ```powershell
 npm install
 npm run build
+npm run audit
+npm run audit:content
 ```
 
 Üretim dosyaları `dist/` altına yazılır. GitHub Pages için `dist` içeriğini site köküne dağıtın. Build her çalıştığında `dist` baştan oluşturulur.
+
+`npm run audit` generated HTML, metadata, canonical, JSON-LD, local links/assets, sitemap, robots, 404 ve temsilî URL örneklerini kontrol eder. `npm run audit:content` her sayfa ailesinde normalize içerik imzaları, kelime sayısı, title/description tekrarları, H2 tekrarları ve iç link erişilebilirliğini raporlar. `npm run audit:http` önizleme server'ı açıkken temsili route'ları, asset'leri ve bilinmeyen route'un 404 durumunu HTTP ile doğrular.
 
 Arayüz mobil önceliklidir; mobilde sabit Ara ve WhatsApp aksiyonları bulunur. Navigasyon dar/tablet ekranlarda klavyeyle erişilebilir drawer olarak açılır. Sayfa URL'leri ve self-canonical yapısı korunmuştur.
 
@@ -54,6 +58,8 @@ Gerçek alan adı; canonical, sitemap, robots, Open Graph ve LocalBusiness schem
 - **Marka×bölge:** `brandRegionPairs` yalnızca referans HTML'de tam href'i görülmüş kombinasyonları içerir. URL şablonundan yeni eşleşme varsaymayın.
 
 Generator `scripts/build.mjs` sayfa şablonları, metadata, JSON-LD, sitemap ve robots dosyalarını üretir. Stil `assets/site.css`, menü davranışı `assets/site.js` içindedir.
+
+Hizmet↔rehber ve rehber↔rehber ilişkileri `serviceDetails` / `guideDetails` mapping'lerinde tutulur. Marka×bölge sayfaları yalnızca `brandRegionPairs` veri kümesindeki kaynakla doğrulanmış eşleşmelerden oluşturulur. İçerik-benzerliği ölçüm yöntemi, sonuçlar ve kalan programmatic similarity riski [CONTENT-QUALITY-AUDIT.md](CONTENT-QUALITY-AUDIT.md) dosyasındadır. Yayına çıkıştan önce [FINAL-PRELAUNCH-CHECKLIST.md](FINAL-PRELAUNCH-CHECKLIST.md) maddelerini tamamlayın.
 
 ## Maps, GBP, değerlendirmeler
 

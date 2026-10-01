@@ -53,3 +53,28 @@ nav?.querySelectorAll('a').forEach(anchor => anchor.addEventListener('click', ()
 mobileMenu.addEventListener('change', event => {
   if (!event.matches) setMenu(false);
 });
+
+const brandSearch = document.getElementById('brand-search');
+if (brandSearch) {
+  const entries = [...document.querySelectorAll('[data-brand-name]')];
+  const groups = [...document.querySelectorAll('.brand-group')];
+  const count = document.getElementById('brand-search-count');
+  const empty = document.createElement('p');
+  empty.className = 'search-empty';
+  empty.hidden = true;
+  empty.textContent = 'Bu aramayla eşleşen marka bulunamadı.';
+  document.getElementById('brand-directory')?.append(empty);
+  const normalize = value => value.toLocaleLowerCase('tr').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ı/g, 'i');
+  brandSearch.addEventListener('input', () => {
+    const query = normalize(brandSearch.value.trim());
+    let visible = 0;
+    for (const entry of entries) {
+      const show = normalize(entry.dataset.brandName).includes(query);
+      entry.hidden = !show;
+      if (show) visible++;
+    }
+    for (const group of groups) group.hidden = !group.querySelector('[data-brand-name]:not([hidden])');
+    if (count) count.textContent = query ? `${visible} / ${entries.length} marka` : `${entries.length} marka`;
+    empty.hidden = visible !== 0;
+  });
+}

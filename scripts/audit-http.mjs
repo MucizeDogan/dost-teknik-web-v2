@@ -1,6 +1,7 @@
 import { services, regions, brands, guides, brandRegionPairs } from './data.mjs';
 const origin=process.env.PREVIEW_URL||'http://127.0.0.1:4173';
-const routes=['/','/hizmetler/','/bolgeler/','/markalar/','/bilgi-merkezi/','/hakkimizda.html','/iletisim.html','/bolgeler/islamhaneleri-klima-servisi.html','/servis/islamhaneleri/arcelik-servisi.html',...services.slice(0,3).map(x=>x.url),...regions.slice(0,5).map(x=>x.url),...brands.slice(0,5).map(x=>x.url),...brandRegionPairs.slice(0,5).map(x=>`/servis/${x.region.slug}/${x.brand.slug}-servisi.html`),...guides.slice(0,5).map(x=>x.url)];
+const spread=(items,count)=>Array.from({length:count},(_,i)=>items[Math.floor(i*(items.length-1)/(count-1))]);
+const routes=['/','/hizmetler/','/bolgeler/','/markalar/','/bilgi-merkezi/','/hakkimizda.html','/iletisim.html','/bolgeler/islamhaneleri-klima-servisi.html','/markalar/arcelik-servisi.html','/servis/islamhaneleri/arcelik-servisi.html','/bilgi-merkezi/klima-neden-sogutmaz.html',...spread(services,5).map(x=>x.url),...spread(regions,10).map(x=>x.url),...spread(brands,10).map(x=>x.url),...spread(brandRegionPairs,30).map(x=>`/servis/${x.region.slug}/${x.brand.slug}-servisi.html`),...spread(guides,10).map(x=>x.url)];
 const errors=[];
 for(const route of [...new Set(routes)]){
   try{
