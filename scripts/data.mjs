@@ -7,7 +7,13 @@ export const site = {
   hours: '09:00–20:00',
   instagram: '@teknik.dost',
   siteUrl: 'https://example.com',
-  mapsUrl: '', businessProfileUrl: '', latitude: '', longitude: '', analyticsId: ''
+  mapsUrl: '',
+  businessProfileUrl: '',
+  placeId: '',
+  latitude: '',
+  longitude: '',
+  mapsEmbedApiKey: '',
+  analyticsId: ''
 };
 
 export const services = [

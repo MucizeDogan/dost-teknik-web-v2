@@ -61,8 +61,19 @@ Generator `scripts/build.mjs` sayfa şablonları, metadata, JSON-LD, sitemap ve 
 
 Hizmet↔rehber ve rehber↔rehber ilişkileri `serviceDetails` / `guideDetails` mapping'lerinde tutulur. Marka×bölge sayfaları yalnızca `brandRegionPairs` veri kümesindeki kaynakla doğrulanmış eşleşmelerden oluşturulur. İçerik-benzerliği ölçüm yöntemi, sonuçlar ve kalan programmatic similarity riski [CONTENT-QUALITY-AUDIT.md](CONTENT-QUALITY-AUDIT.md) dosyasındadır. Yayına çıkıştan önce [FINAL-PRELAUNCH-CHECKLIST.md](FINAL-PRELAUNCH-CHECKLIST.md) maddelerini tamamlayın.
 
-## Maps, GBP, değerlendirmeler
+## Google Maps / Google Business Profile Setup
 
-Doğrulanmış harita/profile URL'si ve enlem/boylamı `site` config'ine ekleyin. Google Business Profile ile ad, telefon, adres ve saat tutarlılığını koruyun. Testimonials alanı varsayılan olarak bulunmaz; yalnızca gerçek ve yayımlama izni alınmış değerlendirmeler ekleyin. Sahte puan/yorum schema'sı kullanılmaz.
+Maps ve profil değerleri `scripts/data.mjs` içindeki `site` config'inde tek yerde tutulur: `mapsUrl`, `businessProfileUrl`, `placeId`, `latitude`, `longitude`, `mapsEmbedApiKey`. Şu an bu alanlar boştur; boşken iframe, Haritada Görüntüle ve profil CTA'sı üretilmez. İletişim sayfasındaki **Yol Tarifi Al** bağlantısı doğrulanmış işletme adresinden oluşturulur; gerçek Place ID eklendiğinde `destination_place_id` de kullanır.
+
+Yayın hazırlığı:
+
+1. Gerçek domaini alın, siteyi deploy edin ve HTTPS'i doğrulayın.
+2. Google Business Profile oluşturup işletme doğrulamasını tamamlayın; bu site kodu profil oluşturmaz.
+3. Google Maps'te gerçek işletme konumunu kontrol edin; doğrudan harita URL'sini, mümkünse Place ID'yi ve doğru koordinatları alın.
+4. Google Cloud'da **Maps Embed API**'yi etkinleştirip API key oluşturun. Key'i HTTP referrer ile production alan adınıza kısıtlayın ve yalnızca gerekli API kullanımına izin verin. Embed API key'i tarayıcıdaki iframe URL'sinde görünür; referrer restriction uygulayın.
+5. `scripts/data.mjs` içindeki diğer doğrulanmış Maps alanlarını doldurun. Embed key'i repoya commit etmeyin; build ortamında `MAPS_EMBED_API_KEY` environment secret olarak verin. Lokal deneme için `site.mapsEmbedApiKey` alanını kullanabilirsiniz, ancak gerçek anahtarı kaynak kontrolüne eklemeyin.
+6. `npm run build`, `npm run audit`, `npm run audit:content` ve önizleme açıkken `npm run audit:http` çalıştırın; sonra deploy edin.
+
+Maps Embed API key varsa iletişim sayfası Place ID'yi, yoksa doğrulanmış koordinat/adresi kullanarak lazy iframe üretir. Gerçek `mapsUrl`, Place ID veya koordinat varsa **Haritada Görüntüle**; gerçek profil URL'si varsa **Google’da Görüntüle** gösterilir. Schema `geo` yalnızca geçerli iki koordinatla, `hasMap` ise yalnızca gerçek `mapsUrl` ile eklenir. Yorum alanı varsayılan olarak bulunmaz; yalnızca gerçek ve yayımlama izni alınmış değerlendirmeler ekleyin. Sahte puan/yorum schema'sı kullanılmaz.
 
 Kurulum adımları için [SEO-SETUP.md](SEO-SETUP.md), URL dökümü için [SEO-PAGE-INVENTORY.md](SEO-PAGE-INVENTORY.md) ve karşılaştırma için [REFERENCE-COMPARISON.md](REFERENCE-COMPARISON.md) dosyalarına bakın.

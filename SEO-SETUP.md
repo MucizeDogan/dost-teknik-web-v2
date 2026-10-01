@@ -24,9 +24,20 @@ GitHub deposunda Pages kaynağını GitHub Actions veya `dist` dağıtımını a
 
 Sitemap 1.318 indekslenebilir URL içerir; `404.html` listeye dahil değildir.
 
-## 4. Google Business Profile ve harita
+## 4. Google Maps / Google Business Profile
 
-`scripts/data.mjs` içindeki `site` nesnesinde `mapsUrl`, `businessProfileUrl`, `latitude`, `longitude` başlangıçta boştur. Yalnızca doğrulanmış profil/harita URL'si ve koordinatları girin. Google Business Profile'daki ad, telefon, adres ve saatleri aşağıdaki değerlerle tutarlı hale getirin:
+`scripts/data.mjs` içindeki `site` nesnesinde aşağıdaki tek-merkez alanlar başlangıçta boştur; gerçek işletme konumu/profili doğrulanana kadar boş bırakın:
+
+```js
+mapsUrl: '',
+businessProfileUrl: '',
+placeId: '',
+latitude: '',
+longitude: '',
+mapsEmbedApiKey: ''
+```
+
+Google Business Profile oluşturma/doğrulama işlemi Google tarafında yapılır; generator profil veya Place ID oluşturmaz. Profildeki ad, telefon, adres ve saatleri aşağıdaki değerlerle tutarlı hale getirin:
 
 - İşletme: Dost Teknik
 - Telefon: +90 534 889 51 48
@@ -34,6 +45,12 @@ Sitemap 1.318 indekslenebilir URL içerir; `404.html` listeye dahil değildir.
 - Saat: 09:00–20:00 (gün kapsamını işletme teyit etmelidir)
 
 Gerçek hizmet yarıçapını profil alan ayarlarında işletme durumuna uygun biçimde belirtin; sanal ofis veya gerçekte bulunmayan lokasyon eklemeyin.
+
+Kurulum sırası: gerçek domaini satın alıp HTTPS ile deploy edin; Business Profile oluşturup doğrulayın; Maps'te konumu teyit edip işletmenin gerçek Maps URL'sini, mümkünse Place ID'sini ve koordinatlarını alın; Google Cloud'da Maps Embed API'yi etkinleştirin ve API key üretin. API key'i HTTP referrer ile production domainine kısıtlayın, yalnızca gereken API'ye izin verin. Embed API key tarayıcı iframe URL'sinde görünür olduğundan onu gizli bir sunucu anahtarı gibi değerlendirmeyin; referrer restriction zorunludur.
+
+`mapsUrl`, `businessProfileUrl`, `placeId`, `latitude` ve `longitude` değerlerini `site` config'te tutun. API key'i production build'de `MAPS_EMBED_API_KEY` environment secret'ta verin; `site.mapsEmbedApiKey` local fallback olarak boş kalabilir. Gerçek key'i README'ye, başka belgelere veya git geçmişine commit etmeyin. CI/CD'de GitHub Actions secret gibi güvenli bir build secret kullanın.
+
+Maps URL doluysa (veya Place ID/koordinatlarla Maps arama adresi üretilebiliyorsa) İletişim'de **Haritada Görüntüle** gösterilir; profile URL varsa **Google’da Görüntüle** gösterilir. **Yol Tarifi Al** doğrulanmış merkezi adresle oluşturulur ve Place ID girildiyse `destination_place_id` eklenir. API key olduğunda yalnızca İletişim sayfasında `loading="lazy"` Maps Embed iframe üretilir (Place ID öncelikli, sonra koordinat/adres). Schema `hasMap` değerini gerçek `mapsUrl`'den, `geo` değerlerini yalnızca doğrulanmış geçerli koordinatlardan alır.
 
 ## 5. Analytics ve sosyal hesap
 

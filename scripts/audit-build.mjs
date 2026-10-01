@@ -8,6 +8,7 @@ const expectedOrigin=(process.env.SITE_URL||site.siteUrl).replace(/\/$/,'');
 async function files(dir){const out=[];for(const entry of await readdir(dir,{withFileTypes:true})){const p=join(dir,entry.name);if(entry.isDirectory())out.push(...await files(p));else out.push(p)}return out}
 const all=await files(dist), htmlFiles=all.filter(x=>x.endsWith('.html')&&!x.endsWith('404.html'));
 const errors=[],titles=new Map(),descriptions=new Map(),canonicals=new Set(),sitemapText=await readFile(join(dist,'sitemap.xml'),'utf8');
+let whatsappCtas=0;
 for(const file of htmlFiles){
  const html=await readFile(file,'utf8'), rel=file.slice(dist.length).replaceAll('\\','/');
  const title=html.match(/<title>(.*?)<\/title>/i)?.[1];
@@ -19,6 +20,13 @@ for(const file of htmlFiles){
  if(h1!==1)errors.push(`${rel}: expected one H1, found ${h1}`);
  if(!canonical)errors.push(`${rel}: missing canonical`);else {try {const parsed=new URL(canonical);if(parsed.protocol!=='https:'||parsed.origin!==expectedOrigin)errors.push(`${rel}: invalid canonical host/protocol ${canonical}`);if(canonicals.has(canonical))errors.push(`${rel}: duplicate canonical ${canonical}`);else canonicals.add(canonical)}catch{errors.push(`${rel}: malformed canonical ${canonical}`)}}
  for(const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)){try{JSON.parse(match[1])}catch{errors.push(`${rel}: invalid JSON-LD`)}}
+ for(const match of html.matchAll(/<a\b(?=[^>]*\bhref="https:\/\/wa\.me\/)[^>]*>[\s\S]*?<\/a>/gi)){
+   whatsappCtas++;
+   const preceding=html.slice(Math.max(0,match.index-1400),match.index);
+   const contactRowHasIcon=rel==='/iletisim.html'&&match[0].includes('Hazır servis mesajı oluştur')&&preceding.includes('icon-whatsapp');
+   if(!match[0].includes('icon-whatsapp')&&!contactRowHasIcon)errors.push(`${rel}: WhatsApp link missing WhatsApp brand icon`);
+   if(match[0].includes('icon-chat'))errors.push(`${rel}: generic chat icon used for WhatsApp`);
+ }
  for(const match of html.matchAll(/\bhref="(\/[^"#?]*)(?:[?#][^"]*)?"/g)){
    const href=match[1];if(href.startsWith('//'))continue;
    const target=join(dist,href.replace(/^\//,''));
@@ -59,6 +67,20 @@ const notFound=await readFile(join(dist,'404.html'),'utf8');
 if(!/<meta name="robots" content="noindex,follow">/.test(notFound))errors.push('404 must be noindex,follow');
 if(/<link rel="canonical"/.test(notFound))errors.push('404 should not publish a canonical');
 if(/<script type="application\/ld\+json">/.test(notFound))errors.push('404 should not emit business/article structured data');
+const contact=await readFile(join(dist,'iletisim.html'),'utf8');
+const contactSchemas=[...contact.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(x=>JSON.parse(x[1]));
+const localBusiness=contactSchemas.find(x=>x['@type']==='HVACBusiness');
+if(site.mapsUrl.trim()){
+ try { if(new URL(site.mapsUrl.trim()).protocol!=='https:'||localBusiness?.hasMap!==new URL(site.mapsUrl.trim()).href)errors.push('LocalBusiness hasMap does not match valid HTTPS mapsUrl'); }
+ catch { errors.push('mapsUrl must be a valid HTTPS URL'); }
+}
+if(site.latitude.trim()&&site.longitude.trim()&&(!localBusiness?.geo||Number(localBusiness.geo.latitude)!==Number(site.latitude)||Number(localBusiness.geo.longitude)!==Number(site.longitude)))errors.push('LocalBusiness geo does not match configured coordinates');
+if(!site.mapsUrl.trim()&&!site.placeId.trim()&&!site.latitude.trim()&&!site.longitude.trim()&&!site.mapsEmbedApiKey.trim()&&!process.env.MAPS_EMBED_API_KEY){
+ if(contact.includes('<iframe'))errors.push('Maps iframe rendered while embed config is empty');
+ if(contact.includes('Haritada Görüntüle')||contact.includes('Google’da Görüntüle'))errors.push('Maps/Profile CTA rendered without corresponding configuration');
+ if(localBusiness?.hasMap||localBusiness?.geo)errors.push('LocalBusiness emits empty-config Maps schema');
+}
+if(site.address.trim()&&!/href="https:\/\/www\.google\.com\/maps\/dir\/\?api=1&amp;destination=/.test(contact))errors.push('directions CTA missing verified business-address destination');
 if(all.some(file=>/dist[\\/]assets[\\/]images[\\/]DostTeknik_.*\.(?:jpg|jpeg)$/i.test(file)))errors.push('original JPEG source copied into dist');
-console.log(`HTML pages ${htmlFiles.length}; titles ${titles.size}; descriptions ${descriptions.size}; canonicals ${canonicals.size}; sitemap URLs ${sitemapCount}; checked sample routes ${sampleRoutes.length}; errors ${errors.length}`);
+console.log(`HTML pages ${htmlFiles.length}; titles ${titles.size}; descriptions ${descriptions.size}; canonicals ${canonicals.size}; sitemap URLs ${sitemapCount}; WhatsApp CTAs ${whatsappCtas}; checked sample routes ${sampleRoutes.length}; errors ${errors.length}`);
 if(errors.length){for(const e of errors.slice(0,60))console.log(`ERROR ${e}`);process.exitCode=1}
