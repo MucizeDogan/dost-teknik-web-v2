@@ -10,7 +10,7 @@ Mevcut proje sıfırdan yazılmadı. 1.318 indekslenebilir URL ve 1.176 kaynakla
 ## 2. SEO hardening
 
 - **Teknik SEO:** tüm 1.318 indexable HTML sayfasında title, meta description, bir H1, unique self-canonical, sosyal paylaşım metadata, breadcrumb ve geçerli JSON-LD kontrol edildi.
-- **Local SEO:** NAP, saat, Instagram kullanıcı adı, alan adı, harita/profil/koordinat alanları merkezi `site` config'inden gelir. LocalBusiness adresi merkezi adres parçalarına bağlıdır. Saatlere gün eklenmedi; haftalık kapsam işletme tarafından teyit edilmelidir.
+- **Local SEO:** NAP, saat, Instagram profili (`https://www.instagram.com/teknik.dost/`), alan adı, harita/profil/koordinat alanları merkezi `site` config'inden gelir. LocalBusiness adresi merkezi adres parçalarına bağlıdır. Saatlere gün eklenmedi; haftalık kapsam işletme tarafından teyit edilmelidir.
 - **Programmatic SEO:** mevcut hizmet, bölge, marka ve marka×bölge URL kalıpları değişmedi. Marka×bölge sayfalarına servis talebi hazırlık listesi, süreç, kategori seçimi, rehber ve sayfa bağlantıları, bağlamsal WhatsApp mesajı eklendi. Kaynak eşleşme sayısı değişmedi.
 - **Title/meta:** 1.318 benzersiz title ve description. Title 30–65, description 82–164 karakter.
 - **Schema:** JSON-LD parse kontrolü hatasız. Hizmet detaylarında `Service`; işletme ve breadcrumb verileri merkezî config'ten. Marka×bölge sayfalarındaki generic FAQ structured data çıkarıldı. Yorum, rating, yetkili servis, açılış günü veya koordinat uydurulmadı.
@@ -86,12 +86,12 @@ Mevcut proje sıfırdan yazılmadı. 1.318 indekslenebilir URL ve 1.176 kaynakla
 
 ## 13. Prelaunch items
 
-Gerçek domain/canonical/sitemap/robots, Search Console, Google Business Profile/Maps/koordinat, Instagram profil URL'si, haftanın günlerini içeren çalışma saati teyidi, gerçek telefon/WhatsApp cihaz testi, prod 404, gerçek telefon UX, favicon/OG paylaşım testi ve istenirse analytics henüz işletme/yayın ortamında doğrulanmadı. Ayrıntılı kontrol kutuları [FINAL-PRELAUNCH-CHECKLIST.md](FINAL-PRELAUNCH-CHECKLIST.md) içindedir.
+Gerçek domain/canonical/sitemap/robots, Search Console, Google Business Profile/Maps/koordinat, Instagram hesabının işletmeye ait olduğunun teyidi, haftanın günlerini içeren çalışma saati teyidi, gerçek telefon/WhatsApp cihaz testi, prod 404, gerçek telefon UX, favicon/OG paylaşım testi ve istenirse analytics henüz işletme/yayın ortamında doğrulanmadı. Instagram profil URL'si merkezi config'te `https://www.instagram.com/teknik.dost/` olarak tanımlı ve bağlantılıdır. Ayrıntılı kontrol kutuları [FINAL-PRELAUNCH-CHECKLIST.md](FINAL-PRELAUNCH-CHECKLIST.md) içindedir.
 
 ## 14. Known limitations
 
 - `https://example.com` bilerek placeholder olarak kalır; production'a bu haliyle dağıtmayın.
 - Marka sayfaları 60 farklı metinsel içerik sunmuyor; doğrulanmış cihaz/servis yetkinliği verisi yok. Marka×bölge grubunda 1.140/1.176 sayfa aynı normalize metin imzasını taşıyor. İkinci gruba düşen 36 sayfanın farkı kaynak eşleşme provenans ifadesidir. Bu ciddi kalite fırsatı işletme verisi gerektirir.
-- Çalışma saati aralığının haftanın hangi günlerini kapsadığı, Maps/GBP URL'si, koordinat ve Instagram profili kaynağı verilmediğinden uydurulmadı.
+- Çalışma saati aralığının haftanın hangi günlerini kapsadığı, Maps/GBP URL'si ve koordinat verilmediğinden uydurulmadı. Instagram profil hedefi merkezi config'te tanımlıdır; hesap sahipliği işletme tarafından teyit edilmelidir.
 - Rakip sayfalar yalnızca açık web'de UX/içerik kategorilerini benchmark etmek için incelendi; rakip iddiaları veya içerikleri kopyalanmadı.
 - Production deploy, gerçek cihaz, Lighthouse/Core Web Vitals, Search Console ve gerçek WhatsApp/telefon görüşmesi yapılmadı.

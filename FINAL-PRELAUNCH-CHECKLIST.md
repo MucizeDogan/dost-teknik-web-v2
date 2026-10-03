@@ -17,7 +17,7 @@ Durum: yerel build ve audit tamamlandı; üretim yayını yapılmadı. Yayından
 - [ ] Google Business Profile'ın gerçek işletme adına ve doğru kategori/adrese ait olduğunu doğrulayın.
 - [ ] Gerçek Google Maps/Business Profile URL'sini merkezi site ayarına ekleyin.
 - [ ] Koordinatları yalnızca doğrulanmış işletme konumu üzerinden ekleyin.
-- [ ] Instagram `@teknik.dost` hesabını ve paylaşılacak gerçek profil URL'sini doğrulayın.
+- [ ] `https://www.instagram.com/teknik.dost/` hesabının Dost Teknik'e ait olduğunu doğrulayın.
 - [ ] Telefon numarasını gerçek cihazda arama başlatmadan kontrol edin; arama bağlantısının doğru numarayı açtığını doğrulayın.
 - [ ] WhatsApp bağlantısını cihazda açıp alıcı numarasını ve ön doldurulmuş mesaj bağlamını kontrol edin; mesajı ancak işletme onayından sonra gönderin.
 - [ ] Akçaalan Mahallesi Zübeyde Hanım Caddesi No:30/2, Bodrum/Muğla adresini doğrulayın.

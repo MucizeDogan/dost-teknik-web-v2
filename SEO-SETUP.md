@@ -54,7 +54,7 @@ Maps URL doluysa (veya Place ID/koordinatlarla Maps arama adresi üretilebiliyor
 
 ## 5. Analytics ve sosyal hesap
 
-`site.analyticsId` boş olduğu sürece analytics kodu eklenmez. Kullanılacaksa izin/yasal bilgilendirme yükümlülüklerini tamamlayın ve doğrulanmış ID girin. Instagram için yalnızca `@teknik.dost` metni gösterilir; URL verilmediğinden profil linki uydurulmaz.
+`site.analyticsId` boş olduğu sürece analytics kodu eklenmez. Kullanılacaksa izin/yasal bilgilendirme yükümlülüklerini tamamlayın ve doğrulanmış ID girin. Instagram bağlantısı `https://www.instagram.com/teknik.dost/` profilini açar; ekranda kısa `Instagram · @teknik.dost` metni görünür.
 
 ## 6. İçerik bakımı
 

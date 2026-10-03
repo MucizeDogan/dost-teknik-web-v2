@@ -5,7 +5,7 @@ export const site = {
   addressParts: { streetAddress: 'Akçaalan Mahallesi Zübeyde Hanım Caddesi No:30/2', addressLocality: 'Bodrum', addressRegion: 'Muğla', addressCountry: 'TR' },
   get address(){ return `${this.addressParts.streetAddress}, ${this.addressParts.addressLocality}/${this.addressParts.addressRegion}`; },
   hours: '09:00–20:00',
-  instagram: '@teknik.dost',
+  instagram: 'https://www.instagram.com/teknik.dost/',
   siteUrl: 'https://example.com',
   mapsUrl: '',
   businessProfileUrl: '',

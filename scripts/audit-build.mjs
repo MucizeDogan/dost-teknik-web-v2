@@ -11,6 +11,10 @@ const errors=[],titles=new Map(),descriptions=new Map(),canonicals=new Set(),sit
 let whatsappCtas=0;
 for(const file of htmlFiles){
  const html=await readFile(file,'utf8'), rel=file.slice(dist.length).replaceAll('\\','/');
+ const instagramTarget='https://www.instagram.com/teknik.dost/';
+ if(!html.includes(`href="${instagramTarget}" target="_blank" rel="noopener noreferrer" aria-label="Dost Teknik Instagram"`))errors.push(`${rel}: Instagram link target or accessible name mismatch`);
+ if(!html.includes('Instagram · @teknik.dost'))errors.push(`${rel}: short Instagram label missing`);
+ if(!html.includes('href="https://mucizedogansarikurkcu.com.tr/" target="_blank" rel="noopener noreferrer">Mucize Doğan Sarıkürkçü</a>'))errors.push(`${rel}: developer credit link mismatch`);
  const title=html.match(/<title>(.*?)<\/title>/i)?.[1];
  const desc=html.match(/<meta name="description" content="(.*?)">/i)?.[1];
  const h1=(html.match(/<h1\b/gi)||[]).length;
@@ -25,6 +29,8 @@ for(const file of htmlFiles){
    const preceding=html.slice(Math.max(0,match.index-1400),match.index);
    const contactRowHasIcon=rel==='/iletisim.html'&&match[0].includes('Hazır servis mesajı oluştur')&&preceding.includes('icon-whatsapp');
    if(!match[0].includes('icon-whatsapp')&&!contactRowHasIcon)errors.push(`${rel}: WhatsApp link missing WhatsApp brand icon`);
+   const iconMarkup=match[0].includes('icon-whatsapp')?match[0]:contactRowHasIcon?preceding.slice(preceding.lastIndexOf('<svg')):'';
+   if(!iconMarkup.includes('viewBox="0 0 448 512"')||!iconMarkup.includes('fill="#25D366"'))errors.push(`${rel}: supplied WhatsApp SVG viewBox or brand fill missing`);
    if(match[0].includes('icon-chat'))errors.push(`${rel}: generic chat icon used for WhatsApp`);
  }
  for(const match of html.matchAll(/\bhref="(\/[^"#?]*)(?:[?#][^"]*)?"/g)){

@@ -34,7 +34,7 @@ Bu komut önce build alır ve `http://127.0.0.1:4173` adresinde `dist/` içeriğ
 
 ## Config
 
-Merkezi işletme ve SEO ayarları `scripts/data.mjs` içindeki `site` nesnesindedir: site adı, telefon, adres, saat, Instagram kullanıcı adı, alan adı, Analytics, harita, Google Business Profile ve koordinat alanları.
+Merkezi işletme ve SEO ayarları `scripts/data.mjs` içindeki `site` nesnesindedir: site adı, telefon, adres, saat, Instagram profil URL'si (`https://www.instagram.com/teknik.dost/`), alan adı, Analytics, harita, Google Business Profile ve koordinat alanları.
 
 `site.siteUrl` şimdilik `https://example.com` placeholder değeridir. Yayına almadan önce gerçek HTTPS alan adınızla değiştirin. Build sırasında ortam değişkeni de kullanabilirsiniz:
 
